@@ -15,7 +15,7 @@ public class Account {
 
     //-- 회원가입 --//
     @Column(unique = true)
-    private String mail;
+    private String email;
 
     @Column(unique = true)
     private String nickname;
