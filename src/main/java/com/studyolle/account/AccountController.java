@@ -60,12 +60,8 @@ public class AccountController {
     mailMessage.setSubject("스터디올래, 회원가입 인증"); //메일 제목
     mailMessage.setText("/check-email-token?token=" + newAccount.getEmailCheckToken() +
             "&email="+newAccount.getEmail());
-    //TODO Email 보내기
-
     javaMailSender.send(mailMessage);
 
-
-    //TODO 회원가입처리
     return "redirect:/";
 
 }
