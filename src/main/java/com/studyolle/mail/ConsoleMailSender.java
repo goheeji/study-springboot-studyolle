@@ -14,7 +14,7 @@ import java.io.InputStream;
 @Profile("local") //local일때 Bean으로 등록해준다.
 @Component //개발자가 직접 Bean으로 등록준다.
 @Slf4j
-public class ConsoleMainSender implements JavaMailSender {
+public class ConsoleMailSender implements JavaMailSender {
     @Override
     public MimeMessage createMimeMessage() {
         return null;
