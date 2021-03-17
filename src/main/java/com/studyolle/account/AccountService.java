@@ -48,8 +48,8 @@ public class AccountService implements UserDetailsService {
                 //.password(signUpForm.getPassword()) //encoding 해야함
                 .password(passwordEncoder.encode(signUpForm.getPassword()))
                 .studyCreatedByWeb(true)
-                .studyEnrollResultByWeb(true)
-                .studyUpdatedResultByWeb(true)
+                .studyEnrollmentResultByWeb(true)
+                .studyUpdatedByWeb(true)
                 .build();
 
         Account newAccount = accountRepository.save(account);
@@ -106,7 +106,23 @@ public class AccountService implements UserDetailsService {
     }
 
     public void updateNotifications(Account account, Notifications notifications) {
-       modelMapper.map(notifications,account);
+        modelMapper.map(notifications, account);
         accountRepository.save(account);
+    }
+
+    public void updateNickname(Account account, String nickname) {
+        account.setNickname(nickname);
+        accountRepository.save(account);
+        login(account);
+    }
+
+    public void sendLoginLink(Account account) {
+        account.generateEmailCheckToken();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(account.getEmail());
+        mailMessage.setSubject("스터디올래, 로그인 링크");
+        mailMessage.setText("/login-by-email?token=" + account.getEmailCheckToken() +
+                "&email=" + account.getEmail());
+        javaMailSender.send(mailMessage);
     }
 }

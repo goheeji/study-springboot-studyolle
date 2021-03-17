@@ -46,15 +46,15 @@ public class Account {
     //-- 알림설정 --//
     private boolean studyCreatedByEmail;
 
-    private boolean studyCreatedByWeb;
+    private boolean studyCreatedByWeb = true;
 
-    private boolean studyEnrollResultByEmail;
+    private boolean studyEnrollmentResultByEmail;
 
-    private boolean studyEnrollResultByWeb;
+    private boolean studyEnrollmentResultByWeb =true;
 
-    private boolean studyUpdatedResultByEmail;
+    private boolean studyUpdatedByEmail;
 
-    private boolean studyUpdatedResultByWeb;
+    private boolean studyUpdatedByWeb =true;
 
     public void generateEmailCheckToken() {
 
