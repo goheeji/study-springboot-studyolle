@@ -4,6 +4,7 @@ import com.studyolle.domain.Account;
 import com.studyolle.settings.Notifications;
 import com.studyolle.settings.Profile;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,7 @@ public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     public Account processNewAccount(SignUpForm signUpForm) {
         //넘너온 폼을 가지고 계정을 생성하고
@@ -93,12 +95,9 @@ public class AccountService implements UserDetailsService {
     }
 
     public void updateProfile(Account account, Profile profile) {
-    account.setUrl(profile.getUrl());
-    account.setOccupation(profile.getOccupation());
-    account.setBio(profile.getBio());
-    account.setLocation(profile.getLocation());
-    account.setProfileImage(profile.getProfileImage());
-    accountRepository.save(account);
+
+        modelMapper.map(profile,account);
+        accountRepository.save(account);
     }
 
     public void updatePassword(Account account, String newPassword) {
@@ -107,12 +106,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public void updateNotifications(Account account, Notifications notifications) {
-        account.setStudyCreatedByEmail(notifications.isStudyCreatedByEmail());
-        account.setStudyCreatedByWeb(notifications.isStudyCreatedByWeb());
-        account.setStudyEnrollResultByEmail(notifications.isStudyEnrollmentResultByEmail());
-        account.setStudyEnrollResultByWeb(notifications.isStudyEnrollmentResultByWeb());
-        account.setStudyUpdatedResultByEmail(notifications.isStudyUpdatedByEmail());
-        account.setStudyUpdatedResultByWeb(notifications.isStudyUpdatedByWeb());
+       modelMapper.map(notifications,account);
         accountRepository.save(account);
     }
 }
